@@ -1,0 +1,95 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <form #contactForm="ngForm" (ngSubmit)="addContact(contactForm)">
+                    <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="contactService.newContact._id">
+                    <fieldset>
+                        <legend>Insert a new person:</legend>
+                        Write a name:
+                        <input type="text" [formControl]="nameControl" class="form-control mb-2" name="name" [(ngModel)]="contactService.newContact.name">
+                        <p class="text-danger" *ngIf="nameControl.hasError('required')">This field is required</p>
+                        <p class="text-danger" *ngIf="nameControl.hasError('minLength')">The name must be more than 3 letters long</p>
+                        <p class="text-danger" *ngIf="nameControl.hasError('pattern')">The name must contain only letters</p>
+
+                        Write a surname:
+                        <input type="text" [formControl]="surnameControl" class="form-control mb-2" name="surname" [(ngModel)]="contactService.newContact.surname">
+                        <p class="text-danger" *ngIf="surnameControl.hasError('required')">This field is required</p>
+                        <p class="text-danger" *ngIf="surnameControl.hasError('minLength')">The surname must be more than 3 letters long</p>
+                        <p class="text-danger" *ngIf="surnameControl.hasError('pattern')">The surname must contain only letters</p>
+
+                        What is her/his age?
+                        <input type="number" [formControl]="ageControl" class="form-control mb-2" name="age" [(ngModel)]="contactService.newContact.age">
+                        <p class="text-danger" *ngIf="ageControl.hasError('min')">This can't be a valid age</p>
+                        <p class="text-danger" *ngIf="ageControl.hasError('max')">I guess this isn't a valid age</p>
+
+
+                        What is her/his personal Id?
+                        <input type="string" [formControl]="idControl" class="form-control mb-2" name="id" [(ngModel)]="contactService.newContact.id">
+                        <p class="text-danger" *ngIf="idControl.hasError('required')">This field is required</p>
+                        <p class="text-danger" *ngIf="idControl.hasError('pattern')">The id must contain only letters and numbers</p>
+                        <p class="text-danger" *ngIf="idControl.hasError('maxLength')">The id must be only nine characters long</p>
+                        <p class="text-danger" *ngIf="idControl.hasError('minLength')">The id must be nine characters long</p>
+
+
+                        Here, them birthday:
+                        <input type="date" [formControl]="birthdayControl" class="form-control mb-2" name="birthday" [(ngModel)]="contactService.newContact.birthday">
+                        <p class="text-danger" *ngIf="birthdayControl.hasError('required')">This field is required</p>
+
+                        Write his/her favorite color:
+                        <input type="text" [formControl]="favoriteColorControl" class="form-control mb-2" name="favoriteColor" [(ngModel)]="contactService.newContact.favoriteColor">
+                        <p class="text-danger" *ngIf="favoriteColorControl.hasError('required')">This field is required</p>
+                        <p class="text-danger" *ngIf="favoriteColorControl.hasError('minLength')">Them favorite color must be more than 3 letters long</p>
+                        <p class="text-danger" *ngIf="favoriteColorControl.hasError('pattern')">Them favorite color must contain only letters</p>
+
+                        <label for="exampleSelect1" class="form-label mb-2">What is them gender?</label>
+                            <select class="form-select" [formControl]="genderControl" id="exampleSelect1" name="gender" [(ngModel)]="contactService.newContact.gender">
+                                <option>Not Specified</option>
+                                <option>Masculine</option>
+                                <option>Feminine</option>
+                                <option>Other</option>
+                            </select>
+                        <p class="text-danger" *ngIf="genderControl.hasError('required')">This field is required</p>
+                    </fieldset>
+                    <fieldset>
+                        <button class="btn btn-dark m-1 mt-3" (click)="resetForm(contactForm)">Clear the data</button>
+                        <button [disabled]="nameControl.invalid || surnameControl.invalid || ageControl.invalid || idControl.invalid || birthdayControl.invalid || favoriteColorControl.invalid || genderControl.invalid" 
+                        class="btn btn-light m-1 mt-3">Save this person</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Age</th>
+                    <th>Personal Id</th>
+                    <th>Birthday</th>
+                    <th>Favorite Color</th>
+                    <th>Gender</th>
+                    <th>List Id</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let contact of contactService.contacts">
+                    <td>{{ contact.name }}</td>
+                    <td>{{ contact.surname }}</td>
+                    <td>{{ contact.age }}</td>
+                    <td>{{ contact.id }}</td>
+                    <td>{{ contact.birthday }}</td>
+                    <td>{{ contact.favoriteColor }}</td>
+                    <td>{{ contact.gender }}</td>
+                    <td>{{ contact._id }}</td>
+                    <td>
+                        <button class="btn btn-success btn-sm" (click)="editContact(contact)">Edit</button>
+                        <button class="btn btn-danger btn-sm" (click)="deleteContact(contact._id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
